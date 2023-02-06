@@ -9,6 +9,7 @@ const routes = require('./routes/routes.js');
 const authRoutes = require('./middleware/auth');
 const app = express();
 const nodemailer = require('nodemailer');
+const PORT = process.env.PORT || 3000;
 
 // Set up Global configuration access
 dotenv.config();
@@ -34,6 +35,6 @@ app.use(function(req, res, next) {
 
 // app.use('/',authRoutes);
 
-app.listen(3000, () => console.log('Server started at port: 3000'));
+app.listen(PORT, () => console.log('Server started at port: 3000'));
 
 

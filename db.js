@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/meanDB', (err)=>{
+mongoose.connect('mongodb+srv://zuber:zuber@cluster0.18elac7.mongodb.net/?retryWrites=true&w=majority',{useNewUrlParser:true,useUnifiedTopology:true}, (err)=>{
     if(!err){
         console.log('Database Connection Successful !!!!!!')
     }else{
