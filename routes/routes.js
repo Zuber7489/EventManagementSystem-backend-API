@@ -489,6 +489,17 @@ router.get('/eventlist/userdata',isAuthenticate,async (req,res)=>{
    }
 });
 
+
+//Get SignUp User Admin
+router.get('/signup/alldata',async (req,res)=>{
+    try {
+    let data = await SignUp.find()
+    res.send(data)
+    } catch (error) {
+     res.status(500).json({ error: error.message })
+    }
+ });
+
 //Update Pay
 // Put Api
 router.put('/eventlist/data/:id', (req, res) => {
