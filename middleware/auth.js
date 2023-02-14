@@ -2,8 +2,9 @@ const jwt = require("jsonwebtoken");
 const express = require('express');
 const dotenv = require('dotenv');
 const router = express.Router();
-let Employee = require('../models/employee');
+let  = require('../models/employee');
 const nodemailer = require('nodemailer');
+const SignUp = require('../models/signUp.js')
 
 
 // Main Code Here  //
@@ -30,7 +31,7 @@ exports.isAuthenticate = async (req, res, next) => {
 
             let verified = jwt.verify(req.authToken, '09f26e402586e2faa8da4c98a35f1b20d6b033c60');
             if (verified.userId) {
-                let checkUser = await Employee.findOne({
+                let checkUser = await SignUp.findOne({
                     _id: verified.userId
                 })
                 if (checkUser) {

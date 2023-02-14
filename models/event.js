@@ -3,6 +3,7 @@ var validateEmail = function(email) {
   var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   return re.test(email)
 };
+const { Schema } = mongoose;
 
 const Event = mongoose.model('Event', {
   eventtype: { type: String },
@@ -13,7 +14,8 @@ const Event = mongoose.model('Event', {
   decoration: { type: String },
   plan: {type:String},
   Status:{type:Boolean},
-  price:{type:String}
+  price:{type:String},
+  userId:{ type: Schema.Types.ObjectId, ref: 'SignUp' },
 });
 
 module.exports = Event;

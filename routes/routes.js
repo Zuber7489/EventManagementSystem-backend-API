@@ -450,8 +450,8 @@ router.post("/loginEvent", async (req, res) => {
 });
 
 
-// Post Event Api
-router.post('/addevent', async (req, res) => {
+// Post User Event Api
+router.post('/addevent',isAuthenticate,  async (req, res) => {
     try {
         let emp = new Event(req.body);
         console.log(emp,'check');
@@ -464,6 +464,8 @@ router.post('/addevent', async (req, res) => {
 
 });
 
+
+
 //Get Event Api
 router.get('/eventlist/data', (req,res)=>{
    
@@ -474,6 +476,17 @@ router.get('/eventlist/data', (req,res)=>{
             res.send(doc);
         } 
     })
+});
+
+
+//Get User Event Api
+router.get('/eventlist/userdata',isAuthenticate,async (req,res)=>{
+   try {
+   let data = await Event.findOne({userId: req.body.userId})
+   res.send(data)
+   } catch (error) {
+    res.status(500).json({ error: error.message })
+   }
 });
 
 //Update Pay
