@@ -482,7 +482,7 @@ router.get('/eventlist/data', (req,res)=>{
 
 
 //Get User Event Api
-router.get('/eventlist/userdata',async (req,res)=>{
+router.get('/eventlist/userdata',isAuthenticate,async (req,res)=>{
    try {
    let data = await Event.findOne({userId: req.body.userId})
    res.send(data)
