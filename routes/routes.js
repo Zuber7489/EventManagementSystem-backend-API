@@ -437,7 +437,9 @@ router.post("/loginEvent", async (req, res) => {
             userId: userDetails._id
         }, '09f26e402586e2faa8da4c98a35f1b20d6b033c60', { expiresIn: '1d' });
         res.setHeader("token", `Bearer ${tokenCreated}`);
-
+        userDetails = {userDetails,
+            token : `${tokenCreated}`
+        }
         delete userDetails.password
         res.send(userDetails)
     } catch (e) {
@@ -480,7 +482,7 @@ router.get('/eventlist/data', (req,res)=>{
 
 
 //Get User Event Api
-router.get('/eventlist/userdata',isAuthenticate,async (req,res)=>{
+router.get('/eventlist/userdata',async (req,res)=>{
    try {
    let data = await Event.findOne({userId: req.body.userId})
    res.send(data)
