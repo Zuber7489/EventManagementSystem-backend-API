@@ -437,8 +437,9 @@ router.post("/loginEvent", async (req, res) => {
             userId: userDetails._id
         }, '09f26e402586e2faa8da4c98a35f1b20d6b033c60', { expiresIn: '1d' });
         res.setHeader("token", `Bearer ${tokenCreated}`);
-        userDetails = {userDetails,
-            token : `${tokenCreated}`
+        userDetails = {
+            userDetails,
+            token: `${tokenCreated}`
         }
         delete userDetails.password
         res.send(userDetails)
@@ -453,10 +454,10 @@ router.post("/loginEvent", async (req, res) => {
 
 
 // Post User Event Api
-router.post('/addevent',isAuthenticate,  async (req, res) => {
+router.post('/addevent', isAuthenticate, async (req, res) => {
     try {
         let emp = new Event(req.body);
-        console.log(emp,'check');
+        console.log(emp, 'check');
         let empData = await emp.save()
         res.send(empData);
     } catch (error) {
@@ -469,48 +470,47 @@ router.post('/addevent',isAuthenticate,  async (req, res) => {
 
 
 //Get Event Api
-router.get('/eventlist/data', (req,res)=>{
-   
-    Event.find((err,doc) =>{
-        if(err){
-            console.log('error in get data',+err);
-        }else{
+router.get('/eventlist/data', (req, res) => {
+
+    Event.find((err, doc) => {
+        if (err) {
+            console.log('error in get data', +err);
+        } else {
             res.send(doc);
-        } 
+        }
     })
 });
 
 
 //Get User Event Api
-router.get('/eventlist/userdata',isAuthenticate,async (req,res)=>{
-   try {
-   let data = await Event.find({userId: req.body.userId})
-   res.send(data)
-   } catch (error) {
-    res.status(500).json({ error: error.message })
-   }
+router.get('/eventlist/userdata', isAuthenticate, async (req, res) => {
+    try {
+        let data = await Event.find({ userId: req.body.userId })
+        res.send(data)
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
 });
 
 
 //Get SignUp User Admin
-router.get('/signup/alldata',async (req,res)=>{
+router.get('/signup/alldata', async (req, res) => {
     try {
-    let data = await SignUp.find()
-    res.send(data)
+        let data = await SignUp.find()
+        res.send(data)
     } catch (error) {
-     res.status(500).json({ error: error.message })
+        res.status(500).json({ error: error.message })
     }
- });
+});
 
 //Update Pay
 // Put Api
 router.put('/eventlist/data/:id', (req, res) => {
     if (ObjectId.isValid(req.params.id)) {
-
         let emp = {
             Status: true,
-        }; 
-console.log(emp,'data');
+        };
+        console.log(emp, 'data');
         Event.findByIdAndUpdate(req.params.id, { $set: emp }, { new: true }, (err, doc) => {
             if (err) {
                 console.log('Error in Update Employee by id ' + err)
@@ -522,5 +522,23 @@ console.log(emp,'data');
         return res.status(400).send('No record found with id' + req.params.id)
     }
 });
+
+//admin status update api
+
+router.put('/eventlist/:id', async (req, res) => {
+   try {
+    let emp = {
+        action : req.query.action
+    };
+    console.log(req.query.action,'1');
+   
+    let data = await Event.findByIdAndUpdate(req.params.id, { $set: emp }, { useFindAndModify: false }).exec();
+    // console.log(data,'check')
+    console.log(data);
+    res.status(200).json(data)
+   } catch (error) {
+    res.status(500).json({ error: error.message })
+   }
+})
 
 module.exports = router;

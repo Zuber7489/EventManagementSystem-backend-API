@@ -16,6 +16,11 @@ const Event = mongoose.model('Event', {
   Status:{type:Boolean},
   price:{type:String},
   userId:{ type: Schema.Types.ObjectId, ref: 'SignUp' },
+  action: {
+    type: String,
+    enum: ['active', 'inActive'],
+    default: 'active'
+},
 });
 
 module.exports = Event;
