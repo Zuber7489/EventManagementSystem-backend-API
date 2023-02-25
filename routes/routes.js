@@ -525,7 +525,7 @@ router.put('/eventlist/data/:id', (req, res) => {
 
 //admin status update api
 
-router.put('/eventlist/:id', async (req, res) => {
+router.get('/eventlist/:id', async (req, res) => {
    try {
     let emp = {
         action : req.query.action
@@ -539,6 +539,20 @@ router.put('/eventlist/:id', async (req, res) => {
    } catch (error) {
     res.status(500).json({ error: error.message })
    }
+})
+
+//Searching api
+router.post('/eventlist/search', async(req,res)=>{
+    try {
+        let searchTerm = req.body.searchTerm;
+        let data = await Recipe.find({
+          $text: { $search: searchTerm, $diacriticSensitive: true },
+        });
+        res.status(200).json(data)
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message })
+       }
 })
 
 module.exports = router;
