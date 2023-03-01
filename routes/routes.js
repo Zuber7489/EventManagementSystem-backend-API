@@ -526,34 +526,42 @@ router.put('/eventlist/data/:id', (req, res) => {
 //admin status update api
 
 router.get('/eventlist/:id', async (req, res) => {
-   try {
-    let emp = {
-        action : req.query.action
-    };
-    console.log(req.query.action,'1');
-   
-    let data = await Event.findByIdAndUpdate(req.params.id, { $set: emp }, { useFindAndModify: false }).exec();
-    // console.log(data,'check')
-    console.log(data);
-    res.status(200).json(data)
-   } catch (error) {
-    res.status(500).json({ error: error.message })
-   }
-   
+    try {
+        let emp = {
+            action: req.query.action
+        };
+        // console.log(req.query.action,'1');
+
+        let data = await Event.findByIdAndUpdate(req.params.id, { $set: emp }, { useFindAndModify: false }).exec();
+        // console.log(data,'check')
+        // console.log(data);
+        res.status(200).json(data)
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
 })
 
-//Searching api
-router.post('/eventlist/search', async(req,res)=>{
+// Searching api
+router.get('/eventlist/search/data', async (req, res) => {
     try {
-        let searchTerm = req.body.searchTerm;
-        let data = await Recipe.find({
-          $text: { $search: searchTerm, $diacriticSensitive: true },
-        });
+
+        let keyword = req.query.place ? {
+            place: {
+                $regex: req.query.place,
+                $options: 'i'
+            }
+        } : {};
+
+        let data = await Event.find({ ...keyword }).exec()
+        console.log(data, 'response')
         res.status(200).json(data)
     }
     catch (error) {
         res.status(500).json({ error: error.message })
-       }
+    }
 })
+
+
+
 
 module.exports = router;
