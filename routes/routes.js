@@ -554,7 +554,6 @@ router.get('/eventlist/search/data', async (req, res) => {
 
         let data = await Event.find({ ...keyword }).exec()
         console.log(data, 'response')
-        
         res.status(200).json(data)
     }
     catch (error) {
