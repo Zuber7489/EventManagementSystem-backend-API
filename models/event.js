@@ -19,7 +19,7 @@ const Event = mongoose.model('Event', {
   action: {
     type: String,
     enum: ['active', 'inActive'],
-    default: 'active'
+    default: 'inActive'
 },
 });
 
